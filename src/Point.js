@@ -1,4 +1,6 @@
 var Point = function(x, y) {
+    //Homogenous coordinates
+    var p = [[x, y, 1]];
     
     function multiplyMatrix(a, b) {
 	var c = [];
@@ -21,11 +23,51 @@ var Point = function(x, y) {
 	    return null;
 	}
     }
+
+    this.getCoordinates = function() {
+	return {
+	    x: p[0][0],
+	    y: p[0][1]
+	};
+    };
+
+    this.getX = function() {
+	return p[0][0];
+    };
+
+    this.getY = function() {
+	return p[0][1];
+    };
+
+    this.setX = function(x) {
+	p[0][0] = x;
+    };
+
+    this.setY = function(y) {
+	p[0][1] = y;
+    };
+
+    this.setCoordinates = function(x, y) {
+	p[0][0] = x;
+	p[0][1] = y;
+    };
+    
+    this.translate = function(dx, dy) {
+	var t = [[1, 0, 0], [0, 1, 0], [dx, dy, 1]];
+
+	p = multiplyMatrix(t, p);
+    };
+
+    this.scale = function(sx, sy) {
+	var s = [[sx, 0, 0], [0, sy, 0], [0, 0, 1]];
+
+	p = multiplyMatrix(s, p);
+    };
+
+    this.rotate = function(angle) {
+	var r = [[Math.cos(angle), Math.sin(angle), 0], [-Math.sin(angle), Math.cos(angle), 0], [0, 0, 1]];
+
+	p = multiplyMatrix(r, p);
+    };
 };
 
-
-
-var a = [[3, 1, 0], [2, 1, 2], [1, 3, 1]];
-var b = [[2, 1, 3]];
-
-console.log(multiplyMatrix(a, b));
